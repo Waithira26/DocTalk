@@ -5,6 +5,7 @@ const path = require("path");
 const jwt = require("jsonwebtoken");
 const rp = require("request-promise");
 const cookieParser = require('cookie-parser');
+// the following secrets are in the env file. you might not see it if you are using git
 const WEBCHAT_SECRET = process.env.WEBCHAT_SECRET;
 const DIRECTLINE_ENDPOINT_URI = process.env.DIRECTLINE_ENDPOINT_URI;
 const APP_SECRET = process.env.APP_SECRET;
@@ -13,12 +14,7 @@ const directLineTokenEp = `https://${DIRECTLINE_ENDPOINT_URI || "directline.botf
 // Initialize the web app instance,
 const app = express();
 app.use(cookieParser());
-
 let options = {};
-// uncomment the line below if you wish to allow only specific domains to embed this page as a frame
-//options = {setHeaders: (res, path, stat) => {res.set('Content-Security-Policy', 'frame-ancestors example.com')}};
-// Indicate which directory static resources
-// (e.g. stylesheets) should be served from.
 app.use(express.static(path.join(__dirname, "public"), options));
 // begin listening for requests.
 const port = process.env.PORT || 8080;
@@ -93,11 +89,6 @@ app.post('/chatBot',  function(req, res) {
             response['userName'] = req.query.userName;
             response['locale'] = req.query.locale;
             response['connectorToken'] = parsedBody.token;
-
-            /*
-            //Add any additional attributes
-            response['optionalAttributes'] = {age: 33};
-            */
 
             if (req.query.lat && req.query.long)  {
                 response['location'] = {lat: req.query.lat, long: req.query.long};
