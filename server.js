@@ -99,7 +99,7 @@ app.post('/chatBot',  function(req, res) {
         })
         .catch(function (err) {
             appConfig.isHealthy = false;
-            res.status(err.statusCode).send();
+            res.status(err.statusCode).send(); 
             console.log("failed");
         });
 });
